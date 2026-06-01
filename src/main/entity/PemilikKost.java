@@ -17,20 +17,18 @@ public class PemilikKost extends Akun {
     private String namaPemilik;
     private String nomorHandphone;
 
-    // Constructor Default
     public PemilikKost() {
         super();
         this.setRole("PEMILIK");
     }
 
-    // Constructor Overloaded
+  
     public PemilikKost(String email, String password, String namaPemilik, String nomorHandphone) {
         super(email, password, "PEMILIK");
         this.namaPemilik = namaPemilik;
         this.nomorHandphone = nomorHandphone;
     }
 
-    // ENCAPSULATION
     public String getNamaPemilik() {
         return namaPemilik;
     }
