@@ -13,7 +13,7 @@ public abstract class Reservasi {
     private double hargaKostDasar; // Harga per bulan
     private int durasiBulan;
 
-    // Default Constructor
+   
     public Reservasi() {}
 
     // Overloaded Constructor
