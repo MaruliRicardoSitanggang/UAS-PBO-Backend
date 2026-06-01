@@ -2,9 +2,8 @@ package com.papikost.api.entity;
 
 import jakarta.persistence.*;
 
-// ==========================================
 // 1. ABSTRACTION & INHERITANCE (Pilar PBO)
-// ==========================================
+
 // Class ini adalah abstract class, merepresentasikan generalisasi Akun dalam sistem.
 // Menerapkan strategi pewarisan JOINED di JPA untuk memetakan subclass ke tabel terpisah.
 
@@ -13,9 +12,9 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Akun {
 
-    // ==========================================
+   
     // 2. ENCAPSULATION (Pilar PBO)
-    // ==========================================
+   
     // Menyembunyikan detail atribut dengan membatasi akses melalui keyword 'private'.
     // Atribut hanya dapat dibaca dan dimodifikasi menggunakan metode Getter dan Setter publik.
 
