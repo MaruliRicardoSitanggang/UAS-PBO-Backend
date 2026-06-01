@@ -4,9 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
-// ==========================================
 // INHERITANCE (Pilar PBO)
-// ==========================================
+
 // PemilikKost mewarisi (extends) fungsionalitas dasar 'Akun' dan menambahkan fungsionalitas unik pemilik kost.
 
 @Entity
