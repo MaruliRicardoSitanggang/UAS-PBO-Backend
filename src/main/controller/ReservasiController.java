@@ -19,14 +19,14 @@ public class ReservasiController {
     @PostMapping("/hitung")
     public ResponseEntity<?> hitungReservasi(@RequestBody ReservasiRequestDTO request) {
         
-        // Memanggil service untuk menjalankan logika perhitungan polimorfisme
+        
         String hasilHitung = reservasiService.hitungTotal(
             request.getIdKamar(), 
             request.getDurasiBulan(), 
             request.isPatungan()
         );
 
-        // Menyusun format balasan JSON dengan gaya personal yang unik
+      
         Map<String, Object> kingEmyuResponse = new HashMap<>();
         kingEmyuResponse.put("status", "success");
         kingEmyuResponse.put("totalHarga", hasilHitung);
