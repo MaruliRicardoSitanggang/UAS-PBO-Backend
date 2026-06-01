@@ -41,9 +41,7 @@ public abstract class Akun {
         this.role = role;
     }
 
-    // ==========================================
-    // GETTERS & SETTERS (Metode Akses Kapsul)
-    // ==========================================
+    
 
     public Long getId() {
         return this.id;
