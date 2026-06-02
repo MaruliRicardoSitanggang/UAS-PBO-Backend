@@ -8,5 +8,6 @@ public class PapiKostApplication {
     public static void main(String[] args) {
         SpringApplication.run(PapiKostApplication.class, args);
         System.out.println("PapiKost Spring Boot Rest API is running on http://localhost:8080");
+        System.out.println("H2 Console tersedia di: http://localhost:8080/h2-console");
     }
 }
