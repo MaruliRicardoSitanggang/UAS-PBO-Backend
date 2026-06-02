@@ -5,11 +5,11 @@ public class ReservasiRequestDTO {
     private Long idKamar;
     private int durasiBulan;
     private boolean isPatungan;
-    
-    // Generate Getter dan Setter di IDE Anda
+    private int jumlahOrang; // Diisi jika isPatungan = true (minimal 2)
+
     public Long getIdPenyewa() { return idPenyewa; }
     public void setIdPenyewa(Long idPenyewa) { this.idPenyewa = idPenyewa; }
-    
+
     public Long getIdKamar() { return idKamar; }
     public void setIdKamar(Long idKamar) { this.idKamar = idKamar; }
 
@@ -18,4 +18,7 @@ public class ReservasiRequestDTO {
 
     public boolean isPatungan() { return isPatungan; }
     public void setPatungan(boolean patungan) { isPatungan = patungan; }
+
+    public int getJumlahOrang() { return jumlahOrang; }
+    public void setJumlahOrang(int jumlahOrang) { this.jumlahOrang = jumlahOrang; }
 }
