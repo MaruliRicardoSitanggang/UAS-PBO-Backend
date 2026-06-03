@@ -11,11 +11,19 @@ public class Laporan {
     private Long id;
 
     private Long userId;
+    private Long unitKamarId; // Referensi ke unit kamar yang dilaporkan
     private LocalDate tanggal;
     private String kategori;
     private String kendala;
+    @Column(length = 2000)
     private String detail;
-    private String status; // BARU, DIPROSES, SELESAI
+    
+    // Status: BARU, ACC, DIPROSES, SELESAI, DITOLAK
+    private String status;
+    
+    // Catatan dari owner
+    @Column(length = 1000)
+    private String catatanOwner;
 
     @PrePersist
     protected void onCreate() {
@@ -31,6 +39,9 @@ public class Laporan {
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
 
+    public Long getUnitKamarId() { return unitKamarId; }
+    public void setUnitKamarId(Long unitKamarId) { this.unitKamarId = unitKamarId; }
+
     public LocalDate getTanggal() { return tanggal; }
     public void setTanggal(LocalDate tanggal) { this.tanggal = tanggal; }
 
@@ -45,4 +56,7 @@ public class Laporan {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getCatatanOwner() { return catatanOwner; }
+    public void setCatatanOwner(String catatanOwner) { this.catatanOwner = catatanOwner; }
 }
