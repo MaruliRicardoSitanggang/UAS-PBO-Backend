@@ -1,75 +1,56 @@
 package com.papikost.api.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-public class InfoKost {
+public class InvitePatungan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ownerId; // ID owner yang memiliki kost ini
+    private String fromUserId;
+    private String fromUserName;
+    private String toUserId;
     
+    private Long kamarId;
     private String namaKost;
-    private String daerah;
-    @Column(length = 2000)
-    private String alamatLengkap;
+    private Double hargaDasar;
+    private Integer jumlahOrang;
+    private Integer durasi;
     
-    // Kategori: "Putra", "Putri", "Campur"
-    private String kategori;
-    
-    private Double hargaDasar; // Harga dasar per bulan
-    
-    // Fasilitas umum kost (checkbox)
-    private Boolean wifi;
-    private Boolean parkir;
-    private Boolean laundry;
-    private Boolean dapur;
-    private Boolean security;
-    
-    // Nomor WhatsApp pemilik untuk tombol "Tanya Pemilik"
-    private String nomorWhatsApp;
+    private String status; // PENDING, DITERIMA, DITOLAK
+    private LocalDateTime createdAt;
 
-    // Constructor
-    public InfoKost() {}
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = "PENDING";
+        }
+    }
 
     // Getter dan Setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public Long getOwnerId() { return ownerId; }
-    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
-
+    public String getFromUserId() { return fromUserId; }
+    public void setFromUserId(String fromUserId) { this.fromUserId = fromUserId; }
+    public String getFromUserName() { return fromUserName; }
+    public void setFromUserName(String fromUserName) { this.fromUserName = fromUserName; }
+    public String getToUserId() { return toUserId; }
+    public void setToUserId(String toUserId) { this.toUserId = toUserId; }
+    public Long getKamarId() { return kamarId; }
+    public void setKamarId(Long kamarId) { this.kamarId = kamarId; }
     public String getNamaKost() { return namaKost; }
     public void setNamaKost(String namaKost) { this.namaKost = namaKost; }
-
-    public String getDaerah() { return daerah; }
-    public void setDaerah(String daerah) { this.daerah = daerah; }
-
-    public String getAlamatLengkap() { return alamatLengkap; }
-    public void setAlamatLengkap(String alamatLengkap) { this.alamatLengkap = alamatLengkap; }
-
-    public String getKategori() { return kategori; }
-    public void setKategori(String kategori) { this.kategori = kategori; }
-
     public Double getHargaDasar() { return hargaDasar; }
     public void setHargaDasar(Double hargaDasar) { this.hargaDasar = hargaDasar; }
-
-    public Boolean getWifi() { return wifi; }
-    public void setWifi(Boolean wifi) { this.wifi = wifi; }
-
-    public Boolean getParkir() { return parkir; }
-    public void setParkir(Boolean parkir) { this.parkir = parkir; }
-
-    public Boolean getLaundry() { return laundry; }
-    public void setLaundry(Boolean laundry) { this.laundry = laundry; }
-
-    public Boolean getDapur() { return dapur; }
-    public void setDapur(Boolean dapur) { this.dapur = dapur; }
-
-    public Boolean getSecurity() { return security; }
-    public void setSecurity(Boolean security) { this.security = security; }
-
-    public String getNomorWhatsApp() { return nomorWhatsApp; }
-    public void setNomorWhatsApp(String nomorWhatsApp) { this.nomorWhatsApp = nomorWhatsApp; }
+    public Integer getJumlahOrang() { return jumlahOrang; }
+    public void setJumlahOrang(Integer jumlahOrang) { this.jumlahOrang = jumlahOrang; }
+    public Integer getDurasi() { return durasi; }
+    public void setDurasi(Integer durasi) { this.durasi = durasi; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
