@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface AkunRepository extends JpaRepository<Akun, Long> {
-    Optional<Akun> findByEmail(String email);
+    // Method untuk mengecek data login
+    Optional<Akun> findByUsername(String username);
 }
