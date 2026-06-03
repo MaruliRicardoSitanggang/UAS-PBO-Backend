@@ -29,19 +29,44 @@ public class BiodataController {
             @PathVariable @NonNull Long userId,
             @RequestBody @NonNull Biodata biodataInput) {
 
-        biodataInput.setUserId(userId);
-        biodataInput.setIsVerified(false);
+        // Ambil data yang sudah ada (jika ada), untuk mempertahankan status berkas
+        Biodata existing = biodataRepository.findById(userId).orElse(new Biodata());
 
-        String statusSaat = biodataInput.getVerifikasiStatus();
-        if (statusSaat == null || statusSaat.equals("BELUM")) {
-            biodataInput.setVerifikasiStatus("PENDING");
+        existing.setUserId(userId);
+        existing.setNamaLengkap(biodataInput.getNamaLengkap());
+        existing.setTanggalLahir(biodataInput.getTanggalLahir());
+        existing.setTempatLahir(biodataInput.getTempatLahir());
+        existing.setJenisKelamin(biodataInput.getJenisKelamin());
+        existing.setNoHp(biodataInput.getNoHp());
+        existing.setAlamat(biodataInput.getAlamat());
+        existing.setPekerjaan(biodataInput.getPekerjaan());
+
+        // Update URL berkas jika ada yang baru dikirim
+        if (biodataInput.getKtpUrl() != null && !biodataInput.getKtpUrl().isEmpty()) {
+            existing.setKtpUrl(biodataInput.getKtpUrl());
+            existing.setKtpStatus("PENDING"); // Reset status berkas saat upload ulang
+            existing.setKtpKomentar(null);
+        }
+        if (biodataInput.getKkUrl() != null && !biodataInput.getKkUrl().isEmpty()) {
+            existing.setKkUrl(biodataInput.getKkUrl());
+            existing.setKkStatus("PENDING");
+            existing.setKkKomentar(null);
+        }
+        if (biodataInput.getFotoUrl() != null && !biodataInput.getFotoUrl().isEmpty()) {
+            existing.setFotoUrl(biodataInput.getFotoUrl());
+            existing.setFotoStatus("PENDING");
+            existing.setFotoKomentar(null);
         }
 
-        Biodata savedBiodata = biodataRepository.save(biodataInput);
+        // Set status keseluruhan ke PENDING setiap kali user submit
+        existing.setIsVerified(false);
+        existing.setVerifikasiStatus("PENDING");
+
+        Biodata savedBiodata = biodataRepository.save(existing);
 
         Map<String, Object> response = new HashMap<>();
         response.put("biodata", savedBiodata);
-        response.put("message", "Data diri berhasil disimpan!");
+        response.put("message", "Data diri berhasil disimpan dan dikirim ke admin untuk diverifikasi.");
 
         return ResponseEntity.ok(response);
     }
