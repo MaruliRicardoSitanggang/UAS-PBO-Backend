@@ -1,44 +1,47 @@
 package com.papikost.api.service;
 
-import com.papikost.api.entity.KamarKost;
+import com.papikost.api.dto.request.ReservasiRequestDTO;
+import com.papikost.api.dto.response.ReservasiResponseDTO;
 import com.papikost.api.model.Reservasi;
 import com.papikost.api.model.ReservasiPatungan;
 import com.papikost.api.model.ReservasiSolo;
-import com.papikost.api.repository.KamarKostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ReservasiService {
 
-    @Autowired
-    private KamarKostRepository kamarKostRepository;
+    public ReservasiResponseDTO prosesKalkulasiTagihan(ReservasiRequestDTO request) {
+        ReservasiResponseDTO response = new ReservasiResponseDTO();
+        
+        response.setTipe(request.getTipe());
+        response.setHargaDasarSewa(request.getHargaDasar());
+        response.setDurasiBulan(request.getDurasi());
 
-    public List<KamarKost> getAllKamar() {
-        return kamarKostRepository.findAll();
-    }
-
-    public double hitungTotalDariHarga(double hargaDasar, int durasiBulan, boolean isPatungan, int jumlahOrang) {
-        String idReservasi = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-
+        // MENGGUNAKAN POLIMORFISME (PBO)
         Reservasi reservasi;
-        if (isPatungan) {
-            reservasi = new ReservasiPatungan(idReservasi, hargaDasar, durasiBulan, jumlahOrang);
+        if ("patungan".equalsIgnoreCase(request.getTipe())) {
+            reservasi = new ReservasiPatungan("RES-PTG-100", request.getHargaDasar(), request.getDurasi(), request.getJumlahOrang());
         } else {
-            reservasi = new ReservasiSolo(idReservasi, hargaDasar, durasiBulan);
+            reservasi = new ReservasiSolo("RES-SLO-200", request.getHargaDasar(), request.getDurasi());
         }
 
-        return reservasi.hitungTotalTagihan();
-    }
+        // Panggilan method abstrak yang di-override
+        double totalTagihan = reservasi.hitungTotalTagihan();
 
-    public String hitungTotal(Long kamarId, int durasiBulan, boolean isPatungan, int jumlahOrang) {
-        KamarKost kamar = kamarKostRepository.findById(kamarId)
-                .orElseThrow(() -> new RuntimeException("Kamar dengan ID " + kamarId + " tidak ditemukan."));
+        response.setIdReservasi(reservasi.getIdReservasi());
+        response.setTotalTagihanHasil(totalTagihan);
 
-        double total = hitungTotalDariHarga(kamar.getHargaDasar(), durasiBulan, isPatungan, jumlahOrang);
-        return String.format("Rp %.0f", total);
+        if (reservasi instanceof ReservasiPatungan) {
+            ReservasiPatungan p = (ReservasiPatungan) reservasi;
+            response.setJumlahOrang(p.getJumlahOrang());
+            response.setFormulaPBO("Total = (hargaDasar / " + p.getJumlahOrang() + ") * " + request.getDurasi());
+            response.setDeskripsiKonsep("ReservasiPatungan.hitungTotalTagihan()");
+        } else {
+            response.setJumlahOrang(1);
+            response.setFormulaPBO("Total = hargaDasar * " + request.getDurasi());
+            response.setDeskripsiKonsep("ReservasiSolo.hitungTotalTagihan()");
+        }
+
+        return response;
     }
 }
