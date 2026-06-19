@@ -7,7 +7,7 @@ Dikembangkan oleh Kelompok PAPI KOST :
 
 241401017 Fadly Hudaya Simanjuntak
 
-241401020 Rio Johannes
+241401020 Rio Johanes
 
 241401041 Jonathan Linggom Nainggolan
 
